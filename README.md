@@ -1,2 +1,2 @@
-# kscryp
-kscryp
+# Ks Cryp
+Ks Cryp project
