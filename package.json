@@ -10,11 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/ameksike/kscryp.git"
   },
-  "author": {
-    "name": "Antonio Membrides Espinosa",
-    "email": "tonykssa@gmail.com",
-    "url": "https://github.com/ameksike"
-  },
+  "author": "Antonio Membrides Espinosa <tonykssa@gmail.com> (https://github.com/ameksike)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ameksike/kscryp/issues"
@@ -22,5 +18,9 @@
   "devDependencies": {
     "jest": "^26.6.3"
   },
-  "homepage": "https://github.com/ameksike/kscryp#readme"
+  "homepage": "https://github.com/ameksike/kscryp#readme",
+  "keywords": [],
+  "dependencies": {
+    "ksdp": "^1.0.10"
+  }
 }
