@@ -38,6 +38,8 @@
     "base64"
   ],
   "dependencies": {
-    "ksdp": "^1.0.10"
-  },
+    "jsonwebtoken": "^9.0.0",
+    "ksdp": "^1.0.10",
+    "md5": "^2.3.0"
+  }
 }
