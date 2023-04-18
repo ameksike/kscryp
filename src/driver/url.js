@@ -3,13 +3,13 @@ const KsDriver = require("../KsDriver");
 class KsURL extends KsDriver {
 
     encode(data, options) {
-        options.character = options.character || { '/': '_', '\\+': '-', '=': '.' };
-        return this.replace(data, options.character);
+        const character = options?.character || { '/': '_', '\\+': '-', '=': '.' };
+        return this.replace(data, character);
     }
 
     decode(data, options) {
-        options.character = options.character || { _: '/', '-': '+', '\\.': '=' };
-        return this.replace(data, options.character);
+        const character = options?.character || { _: '/', '-': '+', '\\.': '=' };
+        return this.replace(data, character);
     }
 }
 module.exports = KsURL;

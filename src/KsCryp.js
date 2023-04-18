@@ -1,17 +1,17 @@
 const KsDp = require('ksdp');
 /**
  * @description Allow encode/decode/verify base on different format
- * @module utils/Cryp
- * @requires jsonwebtoken
- * @requires md5 
+ * @module KsCryp
+ * @requires ksdp
  */
 class KsCryp {
 
-    constructor() {
+    constructor(opt) {
         this.drv = new KsDp.behavioral.Strategy({
             path: __dirname,
             default: 'driver'
         });
+        this.default = opt?.default || "json";
     }
 
     /**
@@ -22,7 +22,11 @@ class KsCryp {
      * @return {String} data
      */
     encode(data, algorithm, options) {
-        return this.run(data, algorithm, options);
+        const drv = target.drv.get({ name: algorithm || this.default, params: [{ lib: this }] });
+        if (!drv.encode) {
+            return null;
+        }
+        return drv.encode(data, options);
     }
 
     /**
@@ -33,7 +37,11 @@ class KsCryp {
      * @return {String|Object} data
      */
     decode(data, algorithm, options) {
-        return this.run(data, algorithm, options, "Decode");
+        const drv = target.drv.get({ name: algorithm || this.default, params: [{ lib: this }] });
+        if (!drv.encode) {
+            return null;
+        }
+        return drv.decode(data, options);
     }
 
     /**
@@ -44,7 +52,11 @@ class KsCryp {
      * @return {Boolean} data
      */
     verify(data, algorithm, options) {
-        return this.run(data, algorithm, options, "Verify");
+        const drv = target.drv.get({ name: algorithm || this.default, params: [{ lib: this }] });
+        if (!drv.encode) {
+            return null;
+        }
+        return drv.verify(data, options);
     }
 
 }

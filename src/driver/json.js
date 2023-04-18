@@ -3,6 +3,7 @@ const KsDriver = require("../KsDriver");
 class KsJson extends KsDriver {
 
     encode(value, options) {
+        options = options || {};
         const avoidCCS = () => {
             const seen = new WeakSet()
             return (key, value) => {
@@ -25,6 +26,7 @@ class KsJson extends KsDriver {
     }
 
     decode(value, options) {
+        options = options || {};
         try {
             options.validType = "string";
             return this.respond(value, null, options) ?? JSON.parse(value);

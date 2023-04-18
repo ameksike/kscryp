@@ -1,5 +1,9 @@
 class KsDriver {
 
+    constructor(lib) {
+        this.lib = lib;
+    }
+
     encode(value, options) {
         return value;
     }

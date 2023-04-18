@@ -4,13 +4,19 @@
   "description": "kscryp",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "publish": "npm login && npm publish"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ameksike/kscryp.git"
   },
-  "author": "Antonio Membrides Espinosa <tonykssa@gmail.com> (https://github.com/ameksike)",
+  "author": {
+    "name": "Antonio Membrides Espinosa",
+    "email": "tonykssa@gmail.com",
+    "url": "https://github.com/ameksike"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ameksike/kscryp/issues"
@@ -19,8 +25,19 @@
     "jest": "^26.6.3"
   },
   "homepage": "https://github.com/ameksike/kscryp#readme",
-  "keywords": [],
+  "keywords": [
+    "ksike",
+    "ksdp",
+    "kscryp",
+    "cryptography",
+    "encoder",
+    "decoder",
+    "json",
+    "jwt",
+    "md5",
+    "base64"
+  ],
   "dependencies": {
     "ksdp": "^1.0.10"
-  }
+  },
 }
