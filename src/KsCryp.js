@@ -12,8 +12,20 @@ class KsCryp {
             default: 'driver'
         });
         this.cmd = new KsDp.behavioral.Command();
-        this.default = opt?.default || "json";
-        this.logger = opt?.logger ?? opt?.log ?? console;
+        this.default = "json";
+        this.logger = console;
+        this.configure(opt);
+    }
+
+    /**
+     * @description configure library
+     * @param {Object} opt 
+     * @returns {Object} KsCryp
+     */
+    configure(opt) {
+        this.default = opt?.default ?? this.default;
+        this.logger = opt?.logger ?? opt?.log ?? this.logger;
+        return this;
     }
 
     /**
