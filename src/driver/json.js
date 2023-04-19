@@ -2,23 +2,24 @@ const KsDriver = require("../KsDriver");
 
 class KsJson extends KsDriver {
 
+    #check() {
+        const seen = new WeakSet()
+        return (key, value) => {
+            if (typeof value === 'object' && value !== null) {
+                if (seen.has(value)) {
+                    return
+                }
+                seen.add(value)
+            }
+            return value
+        }
+    }
+
     encode(value, options) {
         options = options || {};
-        const avoidCCS = () => {
-            const seen = new WeakSet()
-            return (key, value) => {
-                if (typeof value === 'object' && value !== null) {
-                    if (seen.has(value)) {
-                        return
-                    }
-                    seen.add(value)
-                }
-                return value
-            }
-        }
         try {
             options.validType = "object";
-            return this.respond(value, null, options) ?? JSON.stringify(value, avoidCCS());
+            return this.respond(value, null, options) ?? JSON.stringify(value, this.#check());
         }
         catch (error) {
             return this.respond(value, error, options);

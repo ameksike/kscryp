@@ -12,7 +12,7 @@ class KsBase64 extends KsDriver {
             return content;
         }
         catch (error) {
-            this.lib?.log({ src: "base64:encode", data, error });
+            this.lib?.log({ src: "kscryp:Base64:encode", data, error });
             return data;
         }
     }
@@ -26,7 +26,7 @@ class KsBase64 extends KsDriver {
             return options.json && content ? this.lib.decode(content, "json", options) : content;
         }
         catch (error) {
-            this.lib?.log({ src: "base64:decode", data, error });
+            this.lib?.log({ src: "kscryp:Base64:decode", data, error });
             return data;
         }
     }

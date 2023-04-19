@@ -30,7 +30,7 @@ class KsJWT extends KsDriver {
             code: token[1]
         };
         if (token[2]) {
-            content.data = this.lib?.decode && this.lib.decode(token[2], 'hex');
+            content.data = this.lib?.decode && this.lib.decode(token[2], 'hex', { json: true });
         }
         return content;
     }

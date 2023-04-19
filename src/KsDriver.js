@@ -43,13 +43,20 @@ class KsDriver {
         if (!value || error) {
             return strict ? defaultValue : value;
         }
-        function isValid(value, type) {
-            const check = typeof (value) === type;
-            return type === "string"
-                ? (check && isNaN(value) && !value.trim().match(/^(true|false|null)$/ig))
-                : check;
-        }
-        return isValid(value, options.validType) ? null : (strict ? defaultValue : value);
+        return this.isValid(value, options.validType) ? null : (strict ? defaultValue : value);
+    }
+
+    /**
+     * @description check if it is a valid value based on a certain data type
+     * @param {*} value 
+     * @param {String} type 
+     * @returns {Boolean} value 
+     */
+    isValid(value, type) {
+        const check = typeof (value) === type;
+        return type === "string"
+            ? (check && isNaN(value) && !value.trim().match(/^(true|false|null)$/ig))
+            : check;
     }
 
     /**
