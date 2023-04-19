@@ -11,7 +11,9 @@ class KsCryp {
             path: __dirname,
             default: 'driver'
         });
+        this.cmd = new KsDp.behavioral.Command();
         this.default = opt?.default || "json";
+        this.logger = opt?.logger ?? opt?.log ?? console;
     }
 
     /**
@@ -22,7 +24,7 @@ class KsCryp {
      * @return {String} data
      */
     encode(data, algorithm, options) {
-        const drv = this.drv.get({ name: algorithm || this.default, params: [{ lib: this }] });
+        const drv = this.drv.get({ name: algorithm || this.default, params: [this] });
         if (!drv.encode) {
             return null;
         }
@@ -59,6 +61,24 @@ class KsCryp {
         return drv.verify(data, options);
     }
 
+    /**
+     * @description set an external driver format
+     * @param {Object} payload 
+     * @param {String} alias [OPTIONAL]
+     * @returns {Object}
+     */
+    use() {
+        this.drv.set(...arguments);
+        return this;
+    }
+
+    /**
+     * @description internal log handler 
+     */
+    log() {
+        this.logger.log && this.logger.log(...arguments);
+        return this;
+    }
 }
 
 module.exports = KsCryp;
