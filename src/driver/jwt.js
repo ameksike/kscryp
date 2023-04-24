@@ -10,7 +10,7 @@ class KsJWT extends KsDriver {
             });
         }
         catch(error){
-            this.lib?.log({ src: "kscryp:JWT:encode", data, error });
+            this.lib?.log && this.lib.log({ src: "kscryp:JWT:encode", data, error });
             return null;
         }
     }
@@ -21,7 +21,7 @@ class KsJWT extends KsDriver {
             return jwt.verify(data, options?.privateKey || "!ksike!", options?.callback);
         }
         catch(error) {
-            this.lib?.log({ src: "kscryp:JWT:encode", data, error });
+            this.lib?.log && this.lib.log({ src: "kscryp:JWT:encode", data, error });
             return null;
         }
     }
