@@ -51,7 +51,7 @@ class KsCryp {
      * @return {String|Object} data
      */
     decode(data, algorithm, options) {
-        const drv = this.drv.get({ name: algorithm || this.default, params: [{ lib: this }] });
+        const drv = this.drv.get({ name: algorithm || this.default, params: [this] });
         if (!drv.encode) {
             return null;
         }
@@ -66,7 +66,7 @@ class KsCryp {
      * @return {Boolean} data
      */
     verify(data, algorithm, options) {
-        const drv = this.drv.get({ name: algorithm || this.default, params: [{ lib: this }] });
+        const drv = this.drv.get({ name: algorithm || this.default, params: [this] });
         if (!drv.encode) {
             return null;
         }

@@ -9,7 +9,7 @@ class KsHex extends KsDriver {
             return data && Buffer.from(String(data), encoding).toString('hex');
         }
         catch (error) {
-            this.lib?.log({ src: "kscryp:Hex:encode", data, error });
+            this.lib?.log && this.lib.log({ src: "kscryp:Hex:encode", data, error });
             return null;
         }
     }
@@ -21,7 +21,7 @@ class KsHex extends KsDriver {
             return content && options?.json && this.lib.decode ? this.lib.decode(content, 'json', { strict: false }) : content;
         }
         catch (error) {
-            this.lib?.log({ src: "kscryp:Hex:decode", data, error });
+            this.lib?.log && this.lib.log({ src: "kscryp:Hex:decode", data, error });
             return null;
         }
     }
