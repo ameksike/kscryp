@@ -37,7 +37,7 @@ class KsCryp {
      */
     encode(data, algorithm, options) {
         const drv = this.drv.get({ name: algorithm || this.default, params: [this] });
-        if (!drv.encode) {
+        if (!drv?.encode) {
             return null;
         }
         return drv.encode(data, options);
@@ -52,7 +52,7 @@ class KsCryp {
      */
     decode(data, algorithm, options) {
         const drv = this.drv.get({ name: algorithm || this.default, params: [this] });
-        if (!drv.encode) {
+        if (!drv?.encode) {
             return null;
         }
         return drv.decode(data, options);
@@ -67,7 +67,7 @@ class KsCryp {
      */
     verify(data, algorithm, options) {
         const drv = this.drv.get({ name: algorithm || this.default, params: [this] });
-        if (!drv.encode) {
+        if (!drv?.verify) {
             return null;
         }
         return drv.verify(data, options);
@@ -80,7 +80,7 @@ class KsCryp {
      * @returns {Object}
      */
     use() {
-        this.drv.set(...arguments);
+        this.drv?.set && this.drv.set(...arguments);
         return this;
     }
 
@@ -88,7 +88,7 @@ class KsCryp {
      * @description internal log handler 
      */
     log() {
-        this.logger.log && this.logger.log(...arguments);
+        this.logger?.log && this.logger.log(...arguments);
         return this;
     }
 }
