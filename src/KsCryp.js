@@ -52,7 +52,7 @@ class KsCryp {
      */
     decode(data, algorithm, options) {
         const drv = this.drv.get({ name: algorithm || this.default, params: [this] });
-        if (!drv?.encode) {
+        if (!drv?.decode) {
             return null;
         }
         return drv.decode(data, options);
