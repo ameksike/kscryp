@@ -36,11 +36,21 @@ class KsCryp {
      * @return {String} data
      */
     encode(data, algorithm, options) {
-        const drv = this.drv.get({ name: algorithm || this.default, params: [this] });
-        if (!drv.encode) {
+        try {
+            const drv = this.drv.get({ name: algorithm || this.default, params: [this] });
+            if (!drv?.encode) {
+                return null;
+            }
+            return drv.encode(data, options);
+        }
+        catch (error) {
+            this.log({
+                src: "kscryp:encode",
+                error: { message: error?.message || error, stack: error?.stack },
+                data: { data, algorithm, options }
+            });
             return null;
         }
-        return drv.encode(data, options);
     }
 
     /**
@@ -51,11 +61,21 @@ class KsCryp {
      * @return {String|Object} data
      */
     decode(data, algorithm, options) {
-        const drv = this.drv.get({ name: algorithm || this.default, params: [this] });
-        if (!drv.encode) {
+        try {
+            const drv = this.drv.get({ name: algorithm || this.default, params: [this] });
+            if (!drv?.decode) {
+                return null;
+            }
+            return drv.decode(data, options);
+        }
+        catch (error) {
+            this.log({
+                src: "kscryp:decode",
+                error: { message: error?.message || error, stack: error?.stack },
+                data: { data, algorithm, options }
+            });
             return null;
         }
-        return drv.decode(data, options);
     }
 
     /**
@@ -66,11 +86,21 @@ class KsCryp {
      * @return {Boolean} data
      */
     verify(data, algorithm, options) {
-        const drv = this.drv.get({ name: algorithm || this.default, params: [this] });
-        if (!drv.encode) {
+        try {
+            const drv = this.drv.get({ name: algorithm || this.default, params: [this] });
+            if (!drv?.verify) {
+                return null;
+            }
+            return drv.verify(data, options);
+        }
+        catch (error) {
+            this.log({
+                src: "kscryp:verify",
+                error: { message: error?.message || error, stack: error?.stack },
+                data: { data, algorithm, options }
+            });
             return null;
         }
-        return drv.verify(data, options);
     }
 
     /**
@@ -80,15 +110,21 @@ class KsCryp {
      * @returns {Object}
      */
     use() {
-        this.drv.set(...arguments);
-        return this;
+        try {
+            this.drv?.set && this.drv.set(...arguments);
+            return this;
+        }
+        catch (error) {
+            this.log(error);
+            return null;
+        }
     }
 
     /**
      * @description internal log handler 
      */
     log() {
-        this.logger.log && this.logger.log(...arguments);
+        this.logger?.log && this.logger.log(...arguments);
         return this;
     }
 }
