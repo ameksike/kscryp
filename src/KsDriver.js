@@ -5,15 +5,23 @@ class KsDriver {
     }
 
     encode(value, options) {
-        return value;
+        return null;
     }
 
     decode(value, options) {
-        return value;
+        return null;
     }
 
     verify(value, options) {
-        return value;
+        return null;
+    }
+
+    sign(value, options) {
+        return null;
+    }
+
+    generate(options) {
+        return options;
     }
 
     /**

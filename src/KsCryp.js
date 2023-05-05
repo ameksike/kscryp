@@ -35,22 +35,29 @@ class KsCryp {
      * @param {Object} options Object config options based on selected algorithm.
      * @return {String} data
      */
-    encode(data, algorithm, options) {
+    run(algorithm, params, action = "encode") {
         try {
-            const drv = this.drv.get({ name: algorithm || this.default, params: [this] });
-            if (!drv?.encode) {
-                return null;
-            }
-            return drv.encode(data, options);
+            return this.get(algorithm)[action](...params);
         }
         catch (error) {
             this.log({
-                src: "kscryp:encode",
+                src: "kscryp:" + algorithm + ":" + action,
                 error: { message: error?.message || error, stack: error?.stack },
-                data: { data, algorithm, options }
+                data: params
             });
             return null;
         }
+    }
+
+    /**
+     * @description Encoded data from an algorithm
+     * @param {String|Number|Object} data 
+     * @param {String} algorithm String [json | base64 | sha1 | sha256 | md5 | totp | hash | hex | pkce | hash | basic | token | jwt | checksum]
+     * @param {Object} options Object config options based on selected algorithm.
+     * @return {String|Buffer} data
+     */
+    encode(data, algorithm, options) {
+        return this.run(algorithm, [data, options], "encode");
     }
 
     /**
@@ -61,21 +68,7 @@ class KsCryp {
      * @return {String|Object} data
      */
     decode(data, algorithm, options) {
-        try {
-            const drv = this.drv.get({ name: algorithm || this.default, params: [this] });
-            if (!drv?.decode) {
-                return null;
-            }
-            return drv.decode(data, options);
-        }
-        catch (error) {
-            this.log({
-                src: "kscryp:decode",
-                error: { message: error?.message || error, stack: error?.stack },
-                data: { data, algorithm, options }
-            });
-            return null;
-        }
+        return this.run(algorithm, [data, options], "decode");
     }
 
     /**
@@ -86,21 +79,30 @@ class KsCryp {
      * @return {Boolean} data
      */
     verify(data, algorithm, options) {
-        try {
-            const drv = this.drv.get({ name: algorithm || this.default, params: [this] });
-            if (!drv?.verify) {
-                return null;
-            }
-            return drv.verify(data, options);
-        }
-        catch (error) {
-            this.log({
-                src: "kscryp:verify",
-                error: { message: error?.message || error, stack: error?.stack },
-                data: { data, algorithm, options }
-            });
-            return null;
-        }
+        return this.run(algorithm, [data, options], "verify");
+    }
+
+    /**
+     * @description Encoded data from an algorithm
+     * @param {String|Number|Object} data String to decode
+     * @param {String} algorithm String [json | base64 | hash | totp | checksum | hex | basic | token | jwt | signature ]
+     * @param {Object} options Object config options based on selected algorithm
+     * @return {String|Buffer} data
+     */
+    sign(data, algorithm, options) {
+        return this.run(algorithm, [data, options], "sign") ||
+            this.run(algorithm, [data, options], "encode");
+    }
+
+    /**
+     * @description Encoded data from an algorithm
+     * @param {String|Number|Object} data String to decode
+     * @param {String} algorithm String [json | base64 | hash | totp | checksum | hex | basic | token | jwt | signature ]
+     * @param {Object} options Object config options based on selected algorithm
+     * @return {String|Buffer} data
+     */
+    generate(algorithm, options) {
+        return this.run(algorithm, [options], "generate");
     }
 
     /**
@@ -118,6 +120,28 @@ class KsCryp {
             this.log(error);
             return null;
         }
+    }
+
+    /**
+     * @description set an external driver format
+     * @param {Object} payload 
+     * @param {String} alias [OPTIONAL]
+     * @returns {Object}
+     */
+    set() {
+        return this.use(...arguments);
+    }
+
+    /**
+     * @description get a certain algorithm implementation 
+     * @param {String} algorithm 
+     * @returns {Object}
+     */
+    get(algorithm) {
+        return algorithm && this.drv.get({
+            name: algorithm || this.default,
+            params: [this]
+        });
     }
 
     /**
