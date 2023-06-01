@@ -34,12 +34,19 @@
     "decoder",
     "json",
     "jwt",
+    "rsa",
+    "x509",
+    "certificate",
+    "hash",
+    "sha256",
     "md5",
-    "base64"
+    "base64",
+    "hex"
   ],
   "dependencies": {
     "jsonwebtoken": "^9.0.0",
     "ksdp": "^1.0.11",
-    "md5": "^2.3.0"
+    "md5": "^2.3.0",
+    "node-forge": "^1.3.1"
   }
 }
