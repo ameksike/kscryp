@@ -188,3 +188,32 @@ const dec = KsCryp.decode(enc, "rsa", { privateKey, publicKey });
 ```
 
 The security of RSA relies on the fact that it is difficult to factor large prime numbers. However, as computing power has increased, it has become easier to break RSA encryption using brute force methods. To counter this, larger key sizes are now recommended for RSA encryption.
+
+## x509
+In cryptography, X.509 is an [ITU](https://en.wikipedia.org/wiki/International_Telecommunication_Union) standard defining the format of public key certificates. 
+
+### Generate x509 certificate
+```js
+const opts = {
+    altNameIPs: ['127.0.0.1', '55.77.55.77'],
+    altNameURIs: ['http://localhost', 'https://test.com'],
+    validityDays: 300,
+    length: 2048,
+    data: {
+        commonName: 'my.test.com',
+        stateOrProvinceName: 'Barcelona',
+        countryName: 'ES',
+        localityName: 'Barcelona',
+        organizationName: 'Aircraft',
+        organizationNameShort: 'TesTas'
+    }
+};
+const cert = await KsCryp.generate("x509", opts);
+
+const fs = require("fs");
+fs.writeFileSync("x509-cert.pem", cert.publicKey);
+fs.writeFileSync("x509-key.pem", cert.privateKey);
+```
+
+X.509 certificates bind an identity to a public key using a digital signature. In the X.509 system, there are two types of certificates. The first is a CA certificate. The second is an end-entity certificate. A CA certificate can issue other certificates. The top level, self-signed CA certificate is sometimes called the Root CA certificate. Other CA certificates are called intermediate CA or subordinate CA certificates. An end-entity certificate identifies the user, like a person, organization or business. An end-entity certificate cannot issue other certificates. An end-entity certificate is sometimes called a leaf certificate since no other certificates can be issued below it.
+
