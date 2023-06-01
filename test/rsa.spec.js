@@ -1,5 +1,4 @@
 const KsCryp = require('..');
-const obj = { name: "des", age: 15 };
 describe('RSA', () => {
 
     it("valid key pair generation", async (done) => {

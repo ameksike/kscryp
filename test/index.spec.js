@@ -10,6 +10,7 @@ describe('Ksike Cryp', () => {
         expect(KsCryp.encode).toBeInstanceOf(Function);
         expect(KsCryp.decode).toBeInstanceOf(Function);
         expect(KsCryp.verify).toBeInstanceOf(Function);
+        expect(KsCryp.generate).toBeInstanceOf(Function);
         done();
     });
 });
