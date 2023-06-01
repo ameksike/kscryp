@@ -15,28 +15,31 @@ class KsRSA extends KsDriver {
     encode(data, options) {
         options = options || {};
         options.format = options.format || this.format;
-        const signature = crypto.publicEncrypt(
-            {
-                key: options?.privateKey,
-                oaepHash: options?.algorithm || this.algorithm,
-                passphrase: options?.phrase || this.phrase,
-                padding: options?.padding || crypto.constants.RSA_PKCS1_OAEP_PADDING,
-            },
-            Buffer.from(data),
-        );
+        const opt = {
+            key: options?.privateKey,
+            oaepHash: options?.algorithm || this.algorithm,
+            padding: options?.padding || crypto.constants.RSA_PKCS1_OAEP_PADDING,
+        };
+        if (options?.phrase) {
+            opt.passphrase = options.phrase;
+        }
+        const signature = crypto.publicEncrypt(opt, Buffer.from(data),);
         return options?.format !== this.format ? signature : signature.toString(this.format);
     }
 
     decode(data, options) {
         options = options || {};
         options.format = options.format || this.format;
+        const opt = {
+            key: options?.privateKey,
+            padding: options?.padding || crypto.constants.RSA_PKCS1_OAEP_PADDING,
+            oaepHash: options?.algorithm || this.algorithm,
+        };
+        if (options?.phrase) {
+            opt.passphrase = options.phrase;
+        }
         const signature = crypto.privateDecrypt(
-            {
-                key: options?.privateKey,
-                padding: options?.padding || crypto.constants.RSA_PKCS1_OAEP_PADDING,
-                oaepHash: options?.algorithm || this.algorithm,
-                passphrase: options?.phrase || this.phrase,
-            },
+            opt,
             Buffer.from(options?.format !== this.format ? data.toString(this.format) : data, this.format)
         );
         return signature.toString();
@@ -45,14 +48,17 @@ class KsRSA extends KsDriver {
     verify(data, options) {
         options = options || {};
         options.format = options.format || this.format;
+        const opt = {
+            key: options?.privateKey,
+            padding: options?.padding || crypto.constants.RSA_PKCS1_PSS_PADDING
+        };
+        if (options?.phrase) {
+            opt.passphrase = options.phrase;
+        }
         const isVerified = crypto.verify(
             options?.algorithm || this.algorithm,
             Buffer.from(options?.source),
-            {
-                key: options?.privateKey,
-                padding: options?.padding || crypto.constants.RSA_PKCS1_PSS_PADDING,
-                passphrase: options?.phrase || this.phrase,
-            },
+            opt,
             Buffer.from(options?.format !== this.format ? data.toString(this.format) : data, this.format)
         );
         return isVerified;
@@ -61,14 +67,17 @@ class KsRSA extends KsDriver {
     sign(data, options) {
         options = options || {};
         options.format = options.format || this.format;
+        const opt = {
+            key: options?.privateKey,
+            padding: options?.padding || crypto.constants.RSA_PKCS1_PSS_PADDING,
+        };
+        if (options?.phrase) {
+            opt.passphrase = options.phrase;
+        }
         const signature = crypto.sign(
             options?.algorithm || this.algorithm,
             Buffer.from(data),
-            {
-                key: options?.privateKey,
-                passphrase: options?.phrase || this.phrase,
-                padding: options?.padding || crypto.constants.RSA_PKCS1_PSS_PADDING,
-            }
+            opt
         );
         return options?.format !== this.format ? signature : signature.toString(this.format);
     }
@@ -80,32 +89,33 @@ class KsRSA extends KsDriver {
 
     generate(options) {
         return new Promise((resolve, reject) => {
-            crypto.generateKeyPair(
-                "rsa",
-                {
-                    modulusLength: options?.length || this.length,
-                    publicKeyEncoding: {
-                        type: options?.public?.type || 'spki',
-                        format: options?.public?.format || this.extension,
-                    },
-                    privateKeyEncoding: {
-                        type: options?.private?.type || 'pkcs8',
-                        format: options?.private?.format || this.extension,
-                        cipher: options?.cipher || this.cipher,
-                        passphrase: options?.phrase || this.phrase,
-                    },
+            const opt = {
+                modulusLength: options?.length || this.length,
+                publicKeyEncoding: {
+                    type: options?.public?.type || 'spki',
+                    format: options?.public?.format || this.extension,
                 },
-                (err, publicKey, privateKey) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve({
-                            publicKey,
-                            privateKey
-                        });
-                    }
+                privateKeyEncoding: {
+                    type: options?.private?.type || 'pkcs8',
+                    format: options?.private?.format || this.extension
+                },
+            };
+            if (options?.phrase) {
+                opt.privateKeyEncoding.passphrase = options.phrase;
+            }
+            if (options?.cipher) {
+                opt.privateKeyEncoding.cipher = options.cipher;
+            }
+            crypto.generateKeyPair("rsa", opt, (err, publicKey, privateKey) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve({
+                        publicKey,
+                        privateKey
+                    });
                 }
-            )
+            })
         });
     }
 }
