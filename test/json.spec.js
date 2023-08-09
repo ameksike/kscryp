@@ -31,17 +31,36 @@ describe('JSON', () => {
         const srtObj2 = `
             "{\\"W2F\\":    \\"PIL W2F\\",
             \\"PAL\\":\\"PT     
-            PAL\\"}"
+            PAL\\" ,
+            \\"content\\": \\"<tr class=\\"table er-hw\\" role=\\"row\\"> 
+            <span style=\\"color: rgb(0,51,102);\\"> '.'  </tr>\\" 
+            , 
+            \\"P1\\": { \\"d\\": true , ,}, 
+            \\"P2\\": { \\"d\\": false , ,}, 
+            \\"P3\\": { \\"d\\": \\"1\\" , ,,}, 
+            \\"A1\\": [true , , ,], 
+            \\"A2\\": [false , , ,], 
+            \\"A3\\": [\\"1\\" , ,], 
+            \\"A3\\": [{}, {}, ,], ,,
+            }"
         `;
-        const resObj1 = target.decode(srtObj1, "json", { defaultValue: null, strict: true });
-        const resObj2 = target.decode(srtObj2, "json", { defaultValue: null, strict: true });
+        const srtObj4 = '"{ \\"ito\\": \\"adm\\"}"';
+        const srtObj6 = "'\"{\\\\\\\"W2F\\\\\":\\\\\"PILOT 'mito' \\\"  W2F\\\\\" ,\\\\\"PAL\\\\\":\\\\\"PILOT PAL\\\\\"}\"'";
+        const resObj1 = target.decode(srtObj1, "json", { clean: true });
+        const resObj2 = target.decode(srtObj2, "json", { clean: true });
         const resObj3 = target.decode(srtObj2, "json");
+        const resObj4 = target.decode(srtObj4, "json");
+        const resObj5 = target.decode(srtObj4, "json", { clean: true });
+        const resObj6 = target.decode(srtObj6, "json", { clean: true });
 
         expect(resObj1).toBeInstanceOf(Object);
         expect(resObj2).toBeInstanceOf(Object);
+        expect(resObj5).toBeInstanceOf(Object);
+        expect(resObj6).toBeInstanceOf(Object);
         expect(resObj1.W2F).toBe("PIL W2F");
         expect(resObj2.W2F).toBe("PIL W2F");
         expect(resObj3).toBe(srtObj2);
+        expect(typeof resObj4).toBe("string");
     });
 
     it('encode wrong data', () => {

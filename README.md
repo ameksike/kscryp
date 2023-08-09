@@ -229,7 +229,7 @@ const srtObj = `
     \\"des\\":\\"PT     
     PAL\\"}"
 `;
-const resObj = target.decode(srtObj, "json", { defaultValue: null, strict: true });
+const resObj = target.decode(srtObj, "json", { clean: true });
 console.log(
     resObj.name === "PIL W2F",
     resObj.des === "PT     PAL"
