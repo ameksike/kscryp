@@ -30,6 +30,13 @@ class KsJson extends KsDriver {
         options = options || {};
         try {
             options.validType = "string";
+            if (typeof (value) === "string" && options.strict) {
+                value = value
+                    .replace(/\\"/g, '"')
+                    .replace(/"{/g, '{')
+                    .replace(/}"/g, '}')
+                    .replace(/\\r|\r|\n|\\n/g, "");
+            }
             return this.respond(value, null, options) ?? JSON.parse(value);
         }
         catch (error) {
