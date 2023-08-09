@@ -15,10 +15,44 @@ class KsJson extends KsDriver {
         }
     }
 
+    #clean(val) {
+        if (typeof val !== "string") {
+            return val;
+        }
+        return val
+            .replace(/\\r|\r|\n|\\n/g, "")
+
+            .replace(/{[\s|\\]+"/g, '{"')
+            .replace(/[\s|\\]+"[\s|,]*}/g, '"}')
+            .replace(/\[[\s|\\]+"/g, '["')
+            .replace(/[\s|\\]+"[\s|,]*\]/g, '"]')
+            .replace(/,[\s|\\]+"/g, ',"')
+            .replace(/[\s|\\]+"\s*,/g, '",')
+            .replace(/:[\s|\\]+"/g, ':"')
+            .replace(/[\s|\\]+"\s*:/g, '":')
+
+            .replace(/[\s|'|"]+{/g, '{')
+            .replace(/}[\s|'|"]+/g, '}')
+            .replace(/[\s|'|"]+\[/g, '[')
+            .replace(/\][\s|'|"]+/g, ']')
+  
+            .replace(/\][\s|,]+\]/g, ']]')
+            .replace(/\}[\s|,]+\]/g, '}]')
+            .replace(/\][\s|,]+\}/g, ']}')
+            .replace(/\}[\s|,]+\}/g, '}}')
+
+            .replace(/true[\s|,]+\}/g, 'true}')
+            .replace(/false[\s|,]+\}/g, 'false}')
+            .replace(/true[\s|,]+\]/g, 'true]')
+            .replace(/false[\s|,]+\]/g, 'false]')
+        ;
+    }
+
     encode(value, options) {
         options = options || {};
         try {
             options.validType = "object";
+            options.clean && (value = this.#clean(value));
             return this.respond(value, null, options) ?? JSON.stringify(value, this.#check());
         }
         catch (error) {
@@ -30,13 +64,7 @@ class KsJson extends KsDriver {
         options = options || {};
         try {
             options.validType = "string";
-            if (typeof (value) === "string" && options.strict) {
-                value = value
-                    .replace(/\\"/g, '"')
-                    .replace(/"{/g, '{')
-                    .replace(/}"/g, '}')
-                    .replace(/\\r|\r|\n|\\n/g, "");
-            }
+            options.clean && (value = this.#clean(value));
             return this.respond(value, null, options) ?? JSON.parse(value);
         }
         catch (error) {
