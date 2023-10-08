@@ -89,4 +89,23 @@ describe('JSON', () => {
         expect(typeof reqStr).toBe("string");
         expect(reqStr).toBe(resStr);
     });
+
+    it('encode objects with cyclic dependencies and Symbol', () => {
+        const resStr = '{"lst":[null,{},null]}';
+        const reqObj = {
+            lst: [
+                () => 2,
+                {
+                    test: () => 3,
+                },
+                Symbol('4'),
+            ],
+            ref: null
+        }
+        reqObj.ref = reqObj;
+
+        const reqStr = target.encode(reqObj, "json");
+        expect(typeof reqStr).toBe("string");
+        expect(reqStr).toBe(resStr);
+    });
 });
