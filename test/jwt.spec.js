@@ -44,6 +44,19 @@ describe('JWT', () => {
 
         expect(jwtObj).toBeInstanceOf(Object);
         expect(jwtObj.name).toBe("test1");
+        expect(jwtObj.sts).toBe(undefined);
+        expect(jwtObj.exp).toBe(1692300496);
+        expect(jwtObj.iat).toBe(1692298696);
+        done();
+    });
+
+    it("decompress and validate", (done) => {
+        const jwtStr = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdDEiLCJpYXQiOjE2OTIyOTg2OTYsImV4cCI6MTY5MjMwMDQ5Nn0.XACLhB1ggc1wvEQxt6JQBuCaP9djw7OO8e85A7L9TzM";
+        const jwtObj = KsCryp.decode(jwtStr, "jwt", { verify: false, validate: true });
+
+        expect(jwtObj).toBeInstanceOf(Object);
+        expect(jwtObj.name).toBe("test1");
+        expect(jwtObj.sts).toBe(false);
         expect(jwtObj.exp).toBe(1692300496);
         expect(jwtObj.iat).toBe(1692298696);
         done();

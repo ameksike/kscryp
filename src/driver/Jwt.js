@@ -20,7 +20,11 @@ class KsJWT extends KsDriver {
         try {
             if (options?.verify === false) {
                 let tmp = this.unpack(data);
-                return options?.full ? tmp : tmp?.data;
+                let res = options?.full ? tmp : tmp?.data;
+                if (res && options?.validate) {
+                    res.sts = this.verify(data, options);
+                }
+                return res;
             }
             const jwt = require('jsonwebtoken');
             return jwt.verify(data, options?.privateKey || "!ksike!", options?.callback);
@@ -32,6 +36,8 @@ class KsJWT extends KsDriver {
     }
 
     verify(data, options) {
+        options = options || {};
+        options.verify = true;
         return !!this.decode(data, options);
     }
 

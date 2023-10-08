@@ -26,3 +26,28 @@ console.log(
     jwtDec.domain === payload.domain
 )
 ```
+
+### JWT Decode without private Key
+```js 
+        const jwtStr = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9. eyJuYW1lIjoidGVzdDEiLCJpYXQiOjE2OTIyOTg2OTYsImV4cCI6MTY5MjMwMDQ5Nn0.XACLhB1ggc1wvEQxt6JQBuCaP9djw7OO8e85A7L9TzM";
+
+        const jwtObj = KsCryp.decode(jwtStr, "jwt", { verify: false });
+
+        console.log(
+            jwtObj.name === "test1"
+        )
+```
+
+### JWT Decode and Verify the token
+```js 
+        const jwtStr = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9. eyJuYW1lIjoidGVzdDEiLCJpYXQiOjE2OTIyOTg2OTYsImV4cCI6MTY5MjMwMDQ5Nn0.XACLhB1ggc1wvEQxt6JQBuCaP9djw7OO8e85A7L9TzM";
+
+        const jwtObj = KsCryp.decode(jwtStr, "jwt", { verify: false, validate: true });
+
+        console.log(
+            jwtObj.name === "test1",
+            jwtObj.sts === false,
+            jwtObj.exp === 1692300496,
+            jwtObj.iat === 1692298696
+        )
+```
