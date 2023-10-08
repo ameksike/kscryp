@@ -10,138 +10,25 @@ Overall, KsCryp is a powerful yet easy-to-use cryptographic library that helps s
 ## Install and Use
 ``` npm install kscryp ```
 ```js 
-const KsCryp = require(kscryp);
+const KsCryp = require("kscryp");
 ```
 ## HASH 
-A hash function is a mathematical algorithm that takes in input data of arbitrary size and outputs a fixed-length string of characters, known as the hash value or digest. The goal of a hash function is to produce a unique output for each unique input, so that any change in the input data results in a different hash value. Hash functions are commonly used in cryptography to ensure the integrity and authenticity of data by generating unique digital signatures, and in data structures like hash tables to index and retrieve data.
-
-There are various hash functions available, with different properties such as speed, security, and output size. Some of the most commonly used hash functions are:
-### MD5 Encode
-```js 
-const data = "this.is.a.test";
-const encMd5 = KsCryp.encode(data, "hash", { algorithm: "md5" });
-```
-### MD5 Verify
-```js 
-const data = "this.is.a.test";
-const encMd5 = KsCryp.verify(resr, "hash", { key: data, algorithm: "md5" });
-```
-### SHA256 Encode
-```js 
-const data = "this.is.a.test";
-const encMd5 = KsCryp.encode(data, "hash", { algorithm: "sha256" });
-```
-### SHA256 Verify
-```js 
-const data = "this.is.a.test";
-const encMd5 = KsCryp.verify(resr, "hash", { key: data, algorithm: "sha256" });
-```
-### SHA512 Encode
-```js 
-const data = "this.is.a.test";
-const encMd5 = KsCryp.encode(data, "hash", { algorithm: "sha512" });
-```
-### SHA512 Verify
-```js 
-const data = "this.is.a.test";
-const encMd5 = KsCryp.verify(resr, "hash", { key: data, algorithm: "sha512" });
-```
+[Hash encoding](doc/hash.md)  A hash function is a mathematical algorithm that takes in input data of arbitrary size and outputs a fixed-length string of characters, known as the hash value or digest. The goal of a hash function is to produce a unique output for each unique input, so that any change in the input data results in a different hash value. Hash functions are commonly used in cryptography to ensure the integrity and authenticity of data by generating unique digital signatures, and in data structures like hash tables to index and retrieve data.
 
 ## HEX
-HEX encoding is a method for representing binary data in a human-readable format. In this encoding scheme, each byte of binary data is represented by two hexadecimal digits, which are numbers and letters ranging from 0-9 and A-F. For example, the byte 10101110 would be represented as the two hexadecimal digits "AE". HEX encoding is often used in computer systems for a variety of purposes, such as displaying error messages or encoding data in URLs. 
-
-### HEX Encode
-```js 
-const obj = { name: "des", age: 15 };
-const hexEnc = KsCryp.encode(obj, "hex");
-console.log(
-    hexEnc === "7b226e616d65223a22646573222c22616765223a31357d"
-)
-```
-### HEX Decode
-```js 
-const hexDec = KsCryp.decode(hexEnc, "hex", { json: true });
-console.log(
-    hexDec.name === obj.name,
-    hexDec.age === obj.age
-)
-```
+[HEX encoding](doc/hex.md) is a method for representing binary data in a human-readable format. In this encoding scheme, each byte of binary data is represented by two hexadecimal digits, which are numbers and letters ranging from 0-9 and A-F. For example, the byte 10101110 would be represented as the two hexadecimal digits "AE". HEX encoding is often used in computer systems for a variety of purposes, such as displaying error messages or encoding data in URLs. 
 
 ## Base64
-Base64 encoding is a method for representing binary data in ASCII text format. In this encoding scheme, every three bytes of binary data are represented as four characters from a set of 64 characters, which includes letters, numbers, and special characters. The resulting text is larger than the original binary data, but can be transmitted or stored as plain text without modification. Base64 encoding is commonly used in email systems, as well as in web applications for encoding data such as images or audio files that need to be transmitted over HTTP or other text-based protocols. Overall, Base64 encoding provides a means of converting binary data into a form that can be transmitted or stored as plain text, making it easier to work with in various applications.
-
-### Base64 Encode
-```js 
-const base64Enc = KsCryp.encode(obj, "base64");
-console.log(
-    base64Enc === "eyJuYW1lIjoiZGFuaWVsIiwiYWdlIjoxMn0"
-)
-=
-```
-### Base64 Decode
-```js 
-const base64Dec = KsCryp.decode(base64Enc, "base64");
-console.log(
-    base64Dec.name === obj.name,
-    base64Dec.age === obj.age
-)
-```
+[Base64 encoding](doc/base64.md) is a method for representing binary data in ASCII text format. In this encoding scheme, every three bytes of binary data are represented as four characters from a set of 64 characters, which includes letters, numbers, and special characters. The resulting text is larger than the original binary data, but can be transmitted or stored as plain text without modification. Base64 encoding is commonly used in email systems, as well as in web applications for encoding data such as images or audio files that need to be transmitted over HTTP or other text-based protocols. Overall, Base64 encoding provides a means of converting binary data into a form that can be transmitted or stored as plain text, making it easier to work with in various applications.
 
 ## Basic
-Basic encoding, also known as basic authentication, is a simple method for authenticating users over HTTP. It involves sending a username and password in plaintext, encoded using base64 encoding, in the HTTP header of each request. The format of the encoded credentials is "username:password", which is then base64 encoded and added to the Authorization header of the HTTP request. While basic encoding is simple to implement, it is not secure as the credentials are transmitted in plaintext and can easily be intercepted by malicious parties. As such, it is often used in combination with other security measures like HTTPS.
-
-### Basic Encode
-```js 
-const res1 = KsCryp.encode({ key: "root", code: "12345" }, "basic");
-console.log(
-    res1 === 'cm9vdDoxMjM0NQ=='
-)
-```
-It is also possible to add additional data like the following example:
-```js 
-const res2 = KsCryp.encode({ key: "root", code: "12345", data: { den: 123 } }, "basic");
-console.log(
-    res2 === 'cm9vdDoxMjM0NTo3YjIyNjQ2NTZlMjIzYTMxMzIzMzdk'
-)
-```
-### Basic Decode
-```js 
-const res3 = KsCryp.decode("cm9vdDoxMjM0NTo3YjIyNjQ2NTZlMjIzYTMxMzIzMzdk", "basic");
-console.log(
-    res3.key === 'root',
-    res3.code === '12345',
-    res3.data.den === '123',
-)
-```
+[Basic encoding](doc/basic.md), also known as basic authentication, is a simple method for authenticating users over HTTP. It involves sending a username and password in plaintext, encoded using base64 encoding, in the HTTP header of each request. The format of the encoded credentials is "username:password", which is then base64 encoded and added to the Authorization header of the HTTP request. While basic encoding is simple to implement, it is not secure as the credentials are transmitted in plaintext and can easily be intercepted by malicious parties. As such, it is often used in combination with other security measures like HTTPS.
 
 ## JWT
-JWT (JSON Web Tokens) is a method for securely transmitting information between parties as a JSON object. JWT is composed of three parts: the header, the payload, and the signature. The header contains information about the type of token and the cryptographic algorithm used to secure it. The payload contains the actual information being transmitted, such as a user ID or permissions. The signature is created by encoding the header and payload with a secret key, which ensures the integrity of the token and prevents tampering. JWTs are commonly used for authentication and authorization purposes, as they allow users to securely transmit information between different systems without the need for an actual session or cookie.
+[JWT (JSON Web Tokens)](doc/jwt.md) is a method for securely transmitting information between parties as a JSON object. JWT is composed of three parts: the header, the payload, and the signature. The header contains information about the type of token and the cryptographic algorithm used to secure it. The payload contains the actual information being transmitted, such as a user ID or permissions. The signature is created by encoding the header and payload with a secret key, which ensures the integrity of the token and prevents tampering. JWTs are commonly used for authentication and authorization purposes, as they allow users to securely transmit information between different systems without the need for an actual session or cookie.
 
-### JWT Encode
-```js 
-const payload = {
-    userId: 11111,
-    domain: 33333
-};
-const config = {
-    privateKey: "ccb0eea8a",
-    expiresIn: "30y"
-};
-const jwtEnc = KsCryp.encode(payload, "jwt", config);
-console.log(
-    jwtEnc === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExMTExLCJkb21haW4iOjMzMzMzLCJpYXQiOjE2ODE5MDE5ODMsImV4cCI6MjYyODYyOTk4M30.vTVf34ZTYcCmR9Hw2AbM4nodxN2ArVVe7rVTHsoi6ng',
-)
-```
-### JWT Decode
-```js 
-const jwtDec = KsCryp.decode(jwtEnc, "jwt", config);
-console.log(
-    jwtDec.userId === payload.userId,
-    jwtDec.domain === payload.domain
-)
-```
 ## RSA 
-RSA (Rivest–Shamir–Adleman) is a public-key cryptographic algorithm that is widely used for secure data transmission. The RSA algorithm is based on the fact that it is very difficult to factor large prime numbers. The algorithm involves generating a public-private key pair, where the public key can be distributed to anyone who wants to send an encrypted message, and the private key is kept secret and used to decrypt the message.
+[RSA (Rivest–Shamir–Adleman)](doc/rsa.md) is a public-key cryptographic algorithm that is widely used for secure data transmission. The RSA algorithm is based on the fact that it is very difficult to factor large prime numbers. The algorithm involves generating a public-private key pair, where the public key can be distributed to anyone who wants to send an encrypted message, and the private key is kept secret and used to decrypt the message.
 
 ### Generate RSA key pair with OpenSSL
 ```
@@ -190,7 +77,7 @@ const dec = KsCryp.decode(enc, "rsa", { privateKey, publicKey });
 The security of RSA relies on the fact that it is difficult to factor large prime numbers. However, as computing power has increased, it has become easier to break RSA encryption using brute force methods. To counter this, larger key sizes are now recommended for RSA encryption.
 
 ## x509
-In cryptography, X.509 is an [ITU](https://en.wikipedia.org/wiki/International_Telecommunication_Union) standard defining the format of public key certificates. 
+[X.509 encoding:](doc/x509.md) In cryptography, X.509 is an [ITU](https://en.wikipedia.org/wiki/International_Telecommunication_Union) standard defining the format of public key certificates. 
 
 ### Generate x509 certificate
 ```js
@@ -218,45 +105,4 @@ fs.writeFileSync("x509-key.pem", cert.privateKey);
 X.509 certificates bind an identity to a public key using a digital signature. In the X.509 system, there are two types of certificates. The first is a CA certificate. The second is an end-entity certificate. A CA certificate can issue other certificates. The top level, self-signed CA certificate is sometimes called the Root CA certificate. Other CA certificates are called intermediate CA or subordinate CA certificates. An end-entity certificate identifies the user, like a person, organization or business. An end-entity certificate cannot issue other certificates. An end-entity certificate is sometimes called a leaf certificate since no other certificates can be issued below it.
 
 ## Json
-JSON (JavaScript Object Notation) is a lightweight data interchange format that uses a human-readable text structure to represent and transmit structured data. It consists of key-value pairs organized in objects and supports arrays, numbers, strings, booleans, and null values. JSON is widely used for data exchange between applications due to its simplicity, versatility, and ease of parsing across various programming languages.
-
-### Decoding a string in JSON format with special characters
-The issue with special characters like line breaks or double quotes when decoding a JSON string with the JSON.parse function is that they can cause parsing errors and disrupt the expected structure of the JSON data.
-
-```js
-const srtObj = `
-    "{\\"name\\":    \\"PIL W2F\\",
-    \\"des\\":\\"PT     
-    PAL\\"}"
-`;
-const resObj = target.decode(srtObj, "json", { clean: true });
-console.log(
-    resObj.name === "PIL W2F",
-    resObj.des === "PT     PAL"
-)
-```
-
-### Encoding objects with cyclic dependencies
-
-The issue of cyclic dependency arises when using the JSON.stringify function to encode objects that have circular references, causing the process to enter an infinite loop and resulting in incomplete or erroneous JSON representation.
-
-```js
-const reqObj = { "age": 1, "name": "test", "live": true, "work": { "lat": 1 } };
-reqObj.ref = reqObj;
-```
-
-Using the native method JSON.stringify you should get the following error: 
-```
-Error: Converting circular structure to JSON
-    --> starting at object with constructor 'Object'
-    --- property 'ref' closes the circle
-```
-
-To solve the above problem, we can do the following:
-```js
-const reqStr = target.encode(reqObj, "json");
-
-console.log(
-    reqStr === '{"age":1,"name":"test","live":true,"work":{"lat":1}}'
-);
-```
+[JSON (JavaScript Object Notation)](doc/json.md) is a lightweight data interchange format that uses a human-readable text structure to represent and transmit structured data. It consists of key-value pairs organized in objects and supports arrays, numbers, strings, booleans, and null values. JSON is widely used for data exchange between applications due to its simplicity, versatility, and ease of parsing across various programming languages.
