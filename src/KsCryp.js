@@ -8,8 +8,8 @@ const path = require('path');
 class KsCryp {
 
     /**
-     * @typedef {'json' | 'base64' | 'sha1' | 'sha256' | 'md5' | 'totp' | 'hash' | 'hex' | 'pkce' | 'hash' | 'basic' | 'token' | 'jwt' | 'checksum' } EnumAlgorithm
-     * @typedef {'json' | 'base64' | 'totp' | 'hash' | 'hex' | 'signature' | 'basic' | 'token' | 'jwt' | 'checksum' } EnumAlgorithmDecode
+     * @typedef {'json' | 'base64' | 'sha1' | 'sha256' | 'md5' | 'totp' | 'hash' | 'hex' | 'pkce' | 'hash' | 'basic' | 'token' | 'jwt' | 'rsa' | 'checksum' } EnumAlgorithm
+     * @typedef {'json' | 'base64' | 'totp' | 'hash' | 'hex' | 'signature' | 'basic' | 'token' | 'jwt' | 'checksum' | 'rsa' } EnumAlgorithmDecode
      */
 
     constructor(opt) {
@@ -25,7 +25,7 @@ class KsCryp {
 
     /**
      * @description configure library
-     * @param {Object} opt 
+     * @param {Object} [opt] 
      * @param {String} [opt.default=json] 
      * @param {Console} [opt.log] 
      * @returns {Object} KsCryp
@@ -38,9 +38,9 @@ class KsCryp {
 
     /**
      * @description Encoded data from an algorithm
-     * @param {String|Number|Object} data 
-     * @param {EnumAlgorithm} algorithm 
-     * @param {Object} options config options based on selected algorithm.
+     * @param {EnumAlgorithm} [algorithm] 
+     * @param {Object} [params] 
+     * @param {String} [action=encode] 
      * @return {String} data
      */
     run(algorithm, params, action = "encode") {
@@ -60,55 +60,55 @@ class KsCryp {
     /**
      * @description Encoded data from an algorithm
      * @param {String|Number|Object} data 
-     * @param {EnumAlgorithm} algorithm 
-     * @param {Object} options Object config options based on selected algorithm.
+     * @param {EnumAlgorithm} [algorithm=json] 
+     * @param {Object} [options] Object config options based on selected algorithm.
      * @return {String|Buffer} data
      */
-    encode(data, algorithm, options) {
+    encode(data, algorithm = 'json', options = null) {
         return this.run(algorithm, [data, options], "encode");
     }
 
     /**
      * @description Decoded data from an algorithm
      * @param {String|Number|Object} data String to decode
-     * @param {EnumAlgorithmDecode} algorithm 
-     * @param {Object} options Object config options based on selected algorithm
+     * @param {EnumAlgorithmDecode} [algorithm=json] 
+     * @param {Object} [options] Object config options based on selected algorithm
      * @return {String|Object} data
      */
-    decode(data, algorithm, options) {
+    decode(data, algorithm = 'json', options = null) {
         return this.run(algorithm, [data, options], "decode");
     }
 
     /**
      * @description Verify data from an algorithm
      * @param {String|Number|Object} data String to decode
-     * @param {EnumAlgorithmDecode} algorithm 
-     * @param {Object} options Object config options based on selected algorithm
+     * @param {EnumAlgorithmDecode} [algorithm=json] 
+     * @param {Object} [options] Object config options based on selected algorithm
      * @return {Boolean} data
      */
-    verify(data, algorithm, options) {
+    verify(data, algorithm = 'json', options = null) {
         return this.run(algorithm, [data, options], "verify");
     }
 
     /**
      * @description Encoded data from an algorithm
      * @param {String|Number|Object} data String to decode
-     * @param {EnumAlgorithmDecode} algorithm 
-     * @param {Object} options Object config options based on selected algorithm
+     * @param {EnumAlgorithmDecode} [algorithm=json] 
+     * @param {Object} [options] Object config options based on selected algorithm
      * @return {String|Buffer} data
      */
-    sign(data, algorithm, options) {
+    sign(data, algorithm = 'json', options = null) {
         return this.run(algorithm, [data, options], "sign") ||
             this.run(algorithm, [data, options], "encode");
     }
 
     /**
      * @description Encoded data from an algorithm
-     * @param {EnumAlgorithmDecode} algorithm 
-     * @param {Object} options Object config options based on selected algorithm
+     * @param {EnumAlgorithmDecode} [algorithm=rsa] 
+     * @param {Object} [options] Object config options based on selected algorithm
      * @return {String|Buffer} data
      */
-    generate(algorithm, options) {
+    generate(algorithm = 'rsa', options = null) {
         return this.run(algorithm, [options], "generate");
     }
 
@@ -141,10 +141,10 @@ class KsCryp {
 
     /**
      * @description get a certain algorithm implementation 
-     * @param {String} algorithm 
+     * @param {String} [algorithm=json] 
      * @returns {Object}
      */
-    get(algorithm) {
+    get(algorithm = 'json') {
         return algorithm && this.drv.get({
             name: algorithm || this.default,
             params: [this]
