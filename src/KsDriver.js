@@ -4,22 +4,51 @@ class KsDriver {
         this.lib = lib;
     }
 
+    /**
+     * @description Encoded data from an algorithm
+     * @param {String|Number|Object} data
+     * @param {Object} options Object config.
+     * @return {String|Buffer} data
+     */
     encode(value, options) {
         return null;
     }
 
+    /**
+     * @description Decoded data from an algorithm
+     * @param {String|Number|Object} data String to decode
+     * @param {Object} options Object config.
+     * @return {String|Object} data
+     */
     decode(value, options) {
         return null;
     }
 
+    /**
+     * @description Verify data from an algorithm
+     * @param {String|Number|Object} data String to decode
+     * @param {Object} options Config options
+     * @return {Boolean} data
+     */
     verify(value, options) {
         return null;
     }
 
+    /**
+     * @description Encoded data from an algorithm
+     * @param {String|Number|Object} data String to decode
+     * @param {Object} options Config options
+     * @return {String|Buffer} data
+     */
     sign(value, options) {
         return null;
     }
 
+    /**
+     * @description Encoded data from an algorithm
+     * @param {Object} options Object config options based on selected algorithm
+     * @return {String|Buffer} data
+     */
     generate(options) {
         return options;
     }
@@ -69,9 +98,9 @@ class KsDriver {
 
     /**
      * @description get string encode
-     * @param {STRING} data
-     * @param {OBJECT} options
-     * @returns {STRING}
+     * @param {String} data
+     * @param {Object} options
+     * @returns {String}
      */
     getEncoding(data, options) {
         return options && options.encoding

@@ -7,6 +7,14 @@ KsCryp also provides easy-to-use helper functions for common use cases, such as 
 
 Overall, KsCryp is a powerful yet easy-to-use cryptographic library that helps simplify the process of using popular cryptographic algorithms in your Node.js applications. Whether you're building a web application, a mobile app, or any other type of software that requires secure data handling, KsCryp can help you get up and running quickly and easily.
 
+This library belong to the Ksike ecosystem:
+- [KsMf](https://www.npmjs.com/package/ksmf) - Microframework (WEB, REST API, CLI, Proxy, etc)
+- [Ksdp](https://www.npmjs.com/package/ksdp) - Design Patterns Library (GoF, GRASP, IoC, DI, etc)
+- [KsCryp](https://www.npmjs.com/package/kscryp) - Cryptographic Library (RSA, JWT, x509, HEX, Base64, Hash, etc) 
+- [KsHook](https://www.npmjs.com/package/kshook) - Event Driven Library
+- [KsEval](https://www.npmjs.com/package/kseval) - Expression Evaluator Library 
+- [KsWC](https://www.npmjs.com/package/kswc) - Web API deployment Library
+
 ## Install and Use
 ``` npm install kscryp ```
 ```js 

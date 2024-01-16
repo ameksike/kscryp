@@ -1,4 +1,5 @@
 const KsDp = require('ksdp');
+const path = require('path');
 /**
  * @description Allow encode/decode/verify base on different format
  * @module KsCryp
@@ -6,9 +7,14 @@ const KsDp = require('ksdp');
  */
 class KsCryp {
 
+    /**
+     * @typedef {'json' | 'base64' | 'sha1' | 'sha256' | 'md5' | 'totp' | 'hash' | 'hex' | 'pkce' | 'hash' | 'basic' | 'token' | 'jwt' | 'checksum' } EnumAlgorithm
+     * @typedef {'json' | 'base64' | 'totp' | 'hash' | 'hex' | 'signature' | 'basic' | 'token' | 'jwt' | 'checksum' } EnumAlgorithmDecode
+     */
+
     constructor(opt) {
         this.drv = new KsDp.behavioral.Strategy({
-            path: __dirname,
+            path: path.resolve(__dirname),
             default: 'driver'
         });
         this.cmd = new KsDp.behavioral.Command();
@@ -20,6 +26,8 @@ class KsCryp {
     /**
      * @description configure library
      * @param {Object} opt 
+     * @param {String} [opt.default=json] 
+     * @param {Console} [opt.log] 
      * @returns {Object} KsCryp
      */
     configure(opt) {
@@ -31,8 +39,8 @@ class KsCryp {
     /**
      * @description Encoded data from an algorithm
      * @param {String|Number|Object} data 
-     * @param {String} algorithm String [json | base64 | sha1 | sha256 | md5 | totp | hash | hex | pkce | hash | basic | token | jwt | checksum]
-     * @param {Object} options Object config options based on selected algorithm.
+     * @param {EnumAlgorithm} algorithm 
+     * @param {Object} options config options based on selected algorithm.
      * @return {String} data
      */
     run(algorithm, params, action = "encode") {
@@ -52,7 +60,7 @@ class KsCryp {
     /**
      * @description Encoded data from an algorithm
      * @param {String|Number|Object} data 
-     * @param {String} algorithm String [json | base64 | sha1 | sha256 | md5 | totp | hash | hex | pkce | hash | basic | token | jwt | checksum]
+     * @param {EnumAlgorithm} algorithm 
      * @param {Object} options Object config options based on selected algorithm.
      * @return {String|Buffer} data
      */
@@ -63,7 +71,7 @@ class KsCryp {
     /**
      * @description Decoded data from an algorithm
      * @param {String|Number|Object} data String to decode
-     * @param {String} algorithm String [json | base64 | hash | totp | checksum | hex | basic | token | jwt | signature ]
+     * @param {EnumAlgorithmDecode} algorithm 
      * @param {Object} options Object config options based on selected algorithm
      * @return {String|Object} data
      */
@@ -74,7 +82,7 @@ class KsCryp {
     /**
      * @description Verify data from an algorithm
      * @param {String|Number|Object} data String to decode
-     * @param {String} algorithm String [json | base64 | hash | totp | checksum | hex | basic | token | jwt | signature ]
+     * @param {EnumAlgorithmDecode} algorithm 
      * @param {Object} options Object config options based on selected algorithm
      * @return {Boolean} data
      */
@@ -85,7 +93,7 @@ class KsCryp {
     /**
      * @description Encoded data from an algorithm
      * @param {String|Number|Object} data String to decode
-     * @param {String} algorithm String [json | base64 | hash | totp | checksum | hex | basic | token | jwt | signature ]
+     * @param {EnumAlgorithmDecode} algorithm 
      * @param {Object} options Object config options based on selected algorithm
      * @return {String|Buffer} data
      */
@@ -96,8 +104,7 @@ class KsCryp {
 
     /**
      * @description Encoded data from an algorithm
-     * @param {String|Number|Object} data String to decode
-     * @param {String} algorithm String [json | base64 | hash | totp | checksum | hex | basic | token | jwt | signature ]
+     * @param {EnumAlgorithmDecode} algorithm 
      * @param {Object} options Object config options based on selected algorithm
      * @return {String|Buffer} data
      */
@@ -108,7 +115,7 @@ class KsCryp {
     /**
      * @description set an external driver format
      * @param {Object} payload 
-     * @param {String} alias [OPTIONAL]
+     * @param {String} [alias]
      * @returns {Object}
      */
     use() {
@@ -125,7 +132,7 @@ class KsCryp {
     /**
      * @description set an external driver format
      * @param {Object} payload 
-     * @param {String} alias [OPTIONAL]
+     * @param {String} [alias]
      * @returns {Object}
      */
     set() {
