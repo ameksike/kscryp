@@ -1,4 +1,5 @@
 const KsDp = require('ksdp');
+const path = require('path');
 /**
  * @description Allow encode/decode/verify base on different format
  * @module KsCryp
@@ -13,7 +14,7 @@ class KsCryp {
 
     constructor(opt) {
         this.drv = new KsDp.behavioral.Strategy({
-            path: __dirname,
+            path: path.resolve(__dirname),
             default: 'driver'
         });
         this.cmd = new KsDp.behavioral.Command();
