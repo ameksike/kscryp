@@ -1,3 +1,5 @@
 const KsCryp = require("./src/KsCryp");
-
-module.exports = new KsCryp();
+const KsDriver = require("./src/KsDriver");
+const lib = new KsCryp();
+lib.KsDriver = KsDriver;
+module.exports = lib;
