@@ -7,40 +7,40 @@ class KsDriver {
     /**
      * @description Encoded data from an algorithm
      * @param {String|Number|Object} data
-     * @param {Object} options Object config.
+     * @param {Object} [options] Object config.
      * @return {String|Buffer} data
      */
-    encode(value, options) {
+    encode(data, options) {
         return null;
     }
 
     /**
      * @description Decoded data from an algorithm
      * @param {String|Number|Object} data String to decode
-     * @param {Object} options Object config.
+     * @param {Object} [options] Object config.
      * @return {String|Object} data
      */
-    decode(value, options) {
+    decode(data, options) {
         return null;
     }
 
     /**
      * @description Verify data from an algorithm
      * @param {String|Number|Object} data String to decode
-     * @param {Object} options Config options
+     * @param {Object} [options] Config options
      * @return {Boolean} data
      */
-    verify(value, options) {
+    verify(data, options) {
         return null;
     }
 
     /**
      * @description Encoded data from an algorithm
      * @param {String|Number|Object} data String to decode
-     * @param {Object} options Config options
+     * @param {Object} [options] Config options
      * @return {String|Buffer} data
      */
-    sign(value, options) {
+    sign(data, options) {
         return null;
     }
 

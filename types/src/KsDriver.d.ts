@@ -5,31 +5,31 @@ declare class KsDriver {
     /**
      * @description Encoded data from an algorithm
      * @param {String|Number|Object} data
-     * @param {Object} options Object config.
+     * @param {Object} [options] Object config.
      * @return {String|Buffer} data
      */
-    encode(value: any, options: any): string | Buffer;
+    encode(data: string | number | any, options?: any): string | Buffer;
     /**
      * @description Decoded data from an algorithm
      * @param {String|Number|Object} data String to decode
-     * @param {Object} options Object config.
+     * @param {Object} [options] Object config.
      * @return {String|Object} data
      */
-    decode(value: any, options: any): string | any;
+    decode(data: string | number | any, options?: any): string | any;
     /**
      * @description Verify data from an algorithm
      * @param {String|Number|Object} data String to decode
-     * @param {Object} options Config options
+     * @param {Object} [options] Config options
      * @return {Boolean} data
      */
-    verify(value: any, options: any): boolean;
+    verify(data: string | number | any, options?: any): boolean;
     /**
      * @description Encoded data from an algorithm
      * @param {String|Number|Object} data String to decode
-     * @param {Object} options Config options
+     * @param {Object} [options] Config options
      * @return {String|Buffer} data
      */
-    sign(value: any, options: any): string | Buffer;
+    sign(data: string | number | any, options?: any): string | Buffer;
     /**
      * @description Encoded data from an algorithm
      * @param {Object} options Object config options based on selected algorithm
