@@ -5,12 +5,16 @@ const path = require('path');
  * @module KsCryp
  * @requires ksdp
  */
-class KsCryp {
 
-    /**
-     * @typedef {'json' | 'base64' | 'sha1' | 'sha256' | 'md5' | 'totp' | 'hash' | 'hex' | 'pkce' | 'hash' | 'basic' | 'token' | 'jwt' | 'rsa' | 'checksum' } EnumAlgorithm
-     * @typedef {'json' | 'base64' | 'totp' | 'hash' | 'hex' | 'signature' | 'basic' | 'token' | 'jwt' | 'checksum' | 'rsa' } EnumAlgorithmDecode
-     */
+/**
+ * @typedef {({[name:String]:Object})} List 
+ **/
+
+/**
+ * @typedef {'json' | 'base64' | 'sha1' | 'sha256' | 'md5' | 'totp' | 'hash' | 'hex' | 'pkce' | 'hash' | 'basic' | 'token' | 'jwt' | 'rsa' | 'checksum' } EnumAlgorithm
+ * @typedef {'json' | 'base64' | 'totp' | 'hash' | 'hex' | 'signature' | 'basic' | 'token' | 'jwt' | 'checksum' | 'rsa' } EnumAlgorithmDecode
+ */
+class KsCryp {
 
     constructor(opt) {
         this.drv = new KsDp.behavioral.Strategy({
