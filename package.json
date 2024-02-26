@@ -34,6 +34,7 @@
     "cryptography",
     "encoder",
     "decoder",
+    "totp",
     "json",
     "jwt",
     "rsa",
@@ -43,6 +44,7 @@
     "sha256",
     "md5",
     "base64",
+    "base32",
     "hex"
   ],
   "dependencies": {
