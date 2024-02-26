@@ -6,6 +6,9 @@ class KsArrayBuffer extends KsDriver {
     encode(data, options) {
         options = options || {};
         try {
+            if (data instanceof ArrayBuffer) {
+                return data;
+            }
             const encoder = new TextEncoder();
             return encoder.encode(data).buffer;
         }
@@ -19,6 +22,9 @@ class KsArrayBuffer extends KsDriver {
     decode(data, options) {
         options = options || {};
         try {
+            if (typeof data === "string") {
+                return data;
+            }
             const decoder = new TextDecoder();
             return decoder.decode(data);
         }
