@@ -5,8 +5,11 @@ class KsBuffer extends KsDriver {
     encode(data, options) {
         options = options || {};
         try {
+            if (data instanceof Buffer) {
+                return data;
+            }
             let encoding = options.encoding || 'utf-8';
-            return Buffer.from(str, encoding);
+            return Buffer.from(data, encoding);
         }
         catch (error) {
             this.lib?.log && this.lib.log({ src: "kscryp:Buffer:encode", data, error });
@@ -18,6 +21,9 @@ class KsBuffer extends KsDriver {
     decode(data, options) {
         options = options || {};
         try {
+            if (typeof data === "string") {
+                return data;
+            }
             let encoding = options.encoding || 'utf-8';
             return data.toString(encoding);
         }
