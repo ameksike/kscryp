@@ -1,18 +1,16 @@
 const KsDriver = require("../KsDriver");
+const { TextEncoder } = require('util');
 
 class KsDataView extends KsDriver {
 
     encode(data, options) {
         options = options || {};
         try {
-            let encoding = options.encoding || 'utf-8';
             if (data instanceof Int8Array || data instanceof Uint8Array || data instanceof Uint8ClampedArray) {
                 return new DataView(data.buffer, data.byteOffset, data.byteLength);
             }
             if (typeof data === "string") {
                 data = (new TextEncoder()).encode(data).buffer;
-                /*const buffer = Buffer.from(data, encoding);
-                data = buffer.buffer;*/
             }
             return new DataView(data)
         }

@@ -1,4 +1,5 @@
 const KsDriver = require("../KsDriver");
+const { TextEncoder, TextDecoder } = require('util');
 
 class KsArrayBuffer extends KsDriver {
 
