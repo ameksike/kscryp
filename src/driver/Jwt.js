@@ -3,20 +3,25 @@ const KsDriver = require("../KsDriver");
 class KsJWT extends KsDriver {
 
     encode(data, options) {
+        options = options || {};
         try {
             const jwt = require('jsonwebtoken');
 
             return jwt.sign(data, options?.privateKey || "!ksike!", {
+                ...options?.extra,
+                algorithm: options?.algorithm || 'HS256',
                 expiresIn: options?.expiresIn || 60 * 60
             });
         }
         catch (error) {
             this.lib?.log && this.lib.log({ src: "kscryp:JWT:encode", data, error });
+            options.error = error;
             return null;
         }
     }
 
     decode(data, options) {
+        options = options || {};
         try {
             if (options?.verify === false) {
                 let tmp = this.unpack(data);
@@ -27,10 +32,14 @@ class KsJWT extends KsDriver {
                 return res;
             }
             const jwt = require('jsonwebtoken');
-            return jwt.verify(data, options?.privateKey || "!ksike!", options?.callback);
+            return jwt.verify(data, options?.privateKey || "!ksike!", {
+                ...options?.extra,
+                algorithm: options?.algorithm || ['HS256']
+            }, options?.callback);
         }
         catch (error) {
             this.lib?.log && this.lib.log({ src: "kscryp:JWT:encode", data, error });
+            options.error = error;
             return null;
         }
     }
@@ -41,7 +50,8 @@ class KsJWT extends KsDriver {
         return !!this.decode(data, options);
     }
 
-    unpack(data) {
+    unpack(data, options) {
+        options = options || {};
         try {
             if (!data) {
                 return null;
@@ -55,6 +65,7 @@ class KsJWT extends KsDriver {
         }
         catch (error) {
             this.lib?.log && this.lib.log({ src: "kscryp:JWT:encode", data, error });
+            options.error = error;
             return null;
         }
     }
