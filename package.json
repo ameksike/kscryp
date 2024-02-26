@@ -1,6 +1,6 @@
 {
   "name": "kscryp",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "Cryptography package with support for: JWT, RSA, MD5, SHA, Base64, HEX, JSON, Basic",
   "main": "index.js",
   "types": "types/index.d.ts",
