@@ -61,7 +61,6 @@ class TOPTP extends KsDriver {
                 // Allow some time drift (+/- 30 seconds)
                 options.timestamp = timestamp + i * options.time;
                 const current = this.encode(data, options);
-                console.log(current);
                 if (parseInt(current.token) === parseInt(data)) {
                     return true;
                 }
