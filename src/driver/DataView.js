@@ -6,6 +6,9 @@ class KsDataView extends KsDriver {
     encode(data, options) {
         options = options || {};
         try {
+            if (data instanceof DataView) {
+                return data;
+            }
             if (data instanceof Int8Array || data instanceof Uint8Array || data instanceof Uint8ClampedArray) {
                 return new DataView(data.buffer, data.byteOffset, data.byteLength);
             }
@@ -24,6 +27,9 @@ class KsDataView extends KsDriver {
     decode(data, options) {
         options = options || {};
         try {
+            if (typeof data === "string") {
+                return data;
+            }
             if (!(data instanceof DataView)) {
                 return null;
             }
