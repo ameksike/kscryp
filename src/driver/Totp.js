@@ -12,12 +12,12 @@ class TOPTP extends KsDriver {
         options = options || {};
         try {
             options.window = options.window || 5;
-            options.length = options.length || 6;
-            options.time = options.time || 30;
+            options.digits = options.digits || 6;
+            options.step = options.step || 30;
             options.timestamp = options.timestamp || Math.floor(Date.now() / 1000);
 
             // Time window is 30 seconds
-            const timeWindow = Math.floor(options.timestamp / options.time);
+            const timeWindow = Math.floor(options.timestamp / options.step);
             const timeBuffer = Buffer.alloc(8);
             const secret = options.secret || this.generateSecretKey(options.window);
 
@@ -35,13 +35,13 @@ class TOPTP extends KsDriver {
 
             // Convert token to 6-digit format
             let token = tokenBuffer.toString();
-            while (token.length < options.length) {
+            while (token.length < options.digits) {
                 token = '0' + token;
             }
             return {
                 secret,
                 label: data,
-                token: token.slice(-1 * options.length)
+                token: token.slice(-1 * options.digits)
             }
         }
         catch (error) {
@@ -56,10 +56,10 @@ class TOPTP extends KsDriver {
         try {
             // Current UNIX timestamp
             const timestamp = options.timestamp || Math.floor(Date.now() / 1000);
-            options.time = options.time || 30;
+            options.step = options.step || 30;
             for (let i = -1; i <= 1; i++) {
                 // Allow some time drift (+/- 30 seconds)
-                options.timestamp = timestamp + i * options.time;
+                options.timestamp = timestamp + i * options.step;
                 const current = this.encode(data, options);
                 if (parseInt(current.token) === parseInt(data)) {
                     return true;
