@@ -35,7 +35,7 @@ class KsJson extends KsDriver {
             .replace(/}[\s|'|"]+/g, '}')
             .replace(/[\s|'|"]+\[/g, '[')
             .replace(/\][\s|'|"]+/g, ']')
-  
+
             .replace(/\][\s|,]+\]/g, ']]')
             .replace(/\}[\s|,]+\]/g, '}]')
             .replace(/\][\s|,]+\}/g, ']}')
@@ -45,7 +45,7 @@ class KsJson extends KsDriver {
             .replace(/false[\s|,]+\}/g, 'false}')
             .replace(/true[\s|,]+\]/g, 'true]')
             .replace(/false[\s|,]+\]/g, 'false]')
-        ;
+            ;
     }
 
     encode(value, options) {
@@ -53,7 +53,9 @@ class KsJson extends KsDriver {
         try {
             options.validType = "object";
             options.clean && (value = this.#clean(value));
-            return this.respond(value, null, options) ?? JSON.stringify(value, this.#check());
+            let replacer = options.replacer instanceof Function ? options.replacer : this.#check();
+            let space = options.space;
+            return this.respond(value, null, options) ?? JSON.stringify(value, replacer, space);
         }
         catch (error) {
             return this.respond(value, error, options);
